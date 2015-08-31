@@ -1,0 +1,38 @@
+*nat
+:PREROUTING ACCEPT
+:POSTROUTING ACCEPT
+:OUTPUT ACCEPT
+
+COMMIT
+
+*filter
+:INPUT DROP
+:FORWARD DROP
+:OUTPUT ACCEPT
+:TCP -
+:UDP -
+:SSH -
+:BLACKLIST -
+
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A INPUT -p icmp -m icmp --icmp-type 8 -m conntrack --ctstate NEW -j ACCEPT
+-A INPUT -p tcp --syn -m conntrack --ctstate NEW -j TCP
+-A INPUT -p udp -m conntrack --ctstate NEW -j UDP
+-A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
+-A INPUT -p tcp -j REJECT --reject-with tcp-rst
+-A INPUT -j REJECT --reject-with icmp-proto-unreachable
+
+-A TCP -p tcp --dport 22 -j SSH
+-A TCP -s 192.168.0.0/16 -p tcp -m multiport --dports 80,8000,8080,8081 -j ACCEPT
+-A TCP -s 192.168.0.0/16 -p tcp --dport 445 -j ACCEPT
+
+-A SSH -m recent --rcheck --name blacklisted -j DROP
+-A SSH -p tcp --syn -m conntrack --ctstate NEW -m recent --rcheck --name ssh --hitcount 6 --seconds 360 -j BLACKLIST
+-A SSH -p tcp --syn -m conntrack --ctstate NEW -m recent --update --name ssh --hitcount 3 --seconds 180 -j REJECT --reject-with tcp-reset
+-A SSH -p tcp --syn -m conntrack --ctstate NEW -m recent --set --name ssh -j ACCEPT
+
+-A BLACKLIST -p tcp -m recent --set --name blacklisted -j DROP
+
+COMMIT
