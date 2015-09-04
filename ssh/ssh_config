@@ -1,0 +1,25 @@
+# This is the ssh client system-wide configuration file.  See
+# ssh_config(5) for more information.  This file provides defaults for
+# users, and the values can be changed in per-user configuration files
+# or on the command line.
+
+# Configuration data is parsed as follows:
+#  1. command line options
+#  2. user-specific file
+#  3. system-wide file
+# Any configuration value is only changed the first time it is set.
+# Thus, host-specific definitions should be at the beginning of the
+# configuration file, and defaults at the end.
+
+host *
+    # only connect over ipv4 (remove on ipv6 enabled hosts)
+    addressfamily inet
+    # if we cant get a reply after 5 attemps in 5 minutes, kill connection
+    serveraliveinterval 60
+    serveralivecountmax 5
+    # do not close the connection if it gets interrupted briefly
+    tcpkeepalive no
+    # share connections instead of opening multiple (if same user@host:port)
+    controlmaster auto
+    controlpersist yes
+    controlpath ~/.ssh/socket-%r@%h:%p
