@@ -19,7 +19,9 @@ host *
     serveralivecountmax 5
     # do not close the connection if it gets interrupted briefly
     tcpkeepalive no
-    # share connections instead of opening multiple (if same user@host:port)
-    controlmaster auto
-    controlpersist yes
+    # control socket path (user@host:port), identifies a unique connection
     controlpath ~/.ssh/socket-%r@%h:%p
+    # share connections (multiplexing)
+    controlmaster auto
+    # keep connection open for defined period after last client disconnects
+    controlpersist 5m
