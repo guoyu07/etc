@@ -25,10 +25,6 @@ COMMIT
 -A INPUT -j REJECT --reject-with icmp-proto-unreachable
 
 -A TCP -p tcp --dport 22 -j SSH
--A TCP -s 192.168.0.0/16 -p tcp -m multiport --dports 80,8000,8080,8081 -j ACCEPT
--A TCP -s 192.168.0.0/16 -p tcp --dport 3306 -j ACCEPT
--A TCP -s 192.168.0.0/16 -p tcp --dport 6379 -j ACCEPT
--A TCP -s 192.168.0.0/16 -p tcp --dport 445 -j ACCEPT
 
 -A SSH -m recent --rcheck --name blacklisted -j DROP
 -A SSH -p tcp --syn -m conntrack --ctstate NEW -m recent --rcheck --name ssh --hitcount 6 --seconds 360 -j BLACKLIST
