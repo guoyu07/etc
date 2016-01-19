@@ -1,16 +1,26 @@
-AuthenticationMethods publickey
-PermitRootLogin No
+AllowGroups ssh
+AuthenticationMethods publickey password
+AuthorizedKeysFile .ssh/authorized_keys
+ClientAliveCountMax 3
+ClientAliveInterval 10
+MaxAuthTries 3
+Subsystem sftp /usr/lib/ssh/sftp-server
+TCPKeepAlive no
+UseDNS no
+UsePAM no
 UsePrivilegeSeparation sandbox
 
 # See https://stribika.github.io/2015/01/04/secure-secure-shell.html for details.
-KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
 Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
 MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+PubkeyAuthentication yes
+
 Protocol 2
 # ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
 HostKey /etc/ssh/ssh_host_ed25519_key
 # ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null
 HostKey /etc/ssh/ssh_host_rsa_key
-PubkeyAuthentication yes
-PasswordAuthentication no
-ChallengeResponseAuthentication no
