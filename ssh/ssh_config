@@ -20,7 +20,6 @@ Host *
     ControlPath ~/.ssh/socket-%r@%h:%p
 
     # Desirable settings for a secure shell (https://stribika.github.io/2015/01/04/secure-secure-shell.html).
-    HashKnownHosts yes
     Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
     HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
     KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
