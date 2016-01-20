@@ -1,8 +1,8 @@
 AllowGroups ssh
 AuthenticationMethods publickey password
 AuthorizedKeysFile .ssh/authorized_keys
-ClientAliveCountMax 3
-ClientAliveInterval 10
+ClientAliveCountMax 5
+ClientAliveInterval 60
 MaxAuthTries 3
 Subsystem sftp /usr/lib/ssh/sftp-server
 TCPKeepAlive no
