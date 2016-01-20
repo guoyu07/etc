@@ -7,7 +7,6 @@ MaxAuthTries 3
 Subsystem sftp /usr/lib/ssh/sftp-server
 TCPKeepAlive no
 UseDNS no
-UsePAM no
 UsePrivilegeSeparation sandbox
 
 # See https://stribika.github.io/2015/01/04/secure-secure-shell.html for details.
