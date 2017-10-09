@@ -12,7 +12,8 @@ MaxAuthTries 3
 PasswordAuthentication no
 ChallengeResponseAuthentication no
 
-Subsystem sftp /usr/lib/ssh/sftp-server
+LogLevel VERBOSE
+Subsystem sftp /usr/lib/ssh/sftp-server -f AUTHPRIV -l INFO
 
 UseDNS no
 UsePAM yes
