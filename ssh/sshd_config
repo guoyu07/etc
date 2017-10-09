@@ -1,4 +1,5 @@
 AllowGroups ssh
+PermitRootLogin no
 
 AuthenticationMethods publickey
 
