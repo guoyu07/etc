@@ -1,23 +1,42 @@
-AllowGroups ssh
+Port 22
+AddressFamily inet
+ListenAddress 0.0.0.0
+LogLevel VERBOSE
+
+Protocol 2
+# ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
+HostKey /etc/ssh/ssh_host_ed25519_key
+# ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null
+HostKey /etc/ssh/ssh_host_rsa_key
+
+LoginGraceTime 2m
 PermitRootLogin no
-
-AuthenticationMethods publickey
-
+StrictModes yes
+MaxAuthTries 6
+MaxSessions 10
 TCPKeepAlive no
 ClientAliveCountMax 5
 ClientAliveInterval 60
-LoginGraceTime 10
-MaxAuthTries 3
 
+AuthorizedPrincipalsFile none
+AuthorizedKeysCommand none
+AuthorizedKeysCommandUser nobody
+
+RSAAuthentication no
+PubkeyAuthentication yes
 PasswordAuthentication no
+PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
-LogLevel VERBOSE
+AllowGroups ssh
+AuthenticationMethods publickey
+
 Subsystem sftp /usr/lib/ssh/sftp-server -f AUTHPRIV -l INFO
 
 UseDNS no
 UsePAM yes
 PrintMotd no
+Banner none
 
 # See https://stribika.github.io/2015/01/04/secure-secure-shell.html
 # See also https://wiki.mozilla.org/Security/Guidelines/OpenSSH
@@ -25,8 +44,6 @@ KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
 Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
 MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
-Protocol 2
-# ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
-HostKey /etc/ssh/ssh_host_ed25519_key
-# ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null
-HostKey /etc/ssh/ssh_host_rsa_key
+# All Diffie-Hellman moduli in use should be at least 3072-bit-long.
+# To deactivate short modules in two commands:
+#   awk '$5 >= 3071' /etc/ssh/moduli > /etc/ssh/moduli.tmp && mv /etc/ssh/moduli.tmp /etc/ssh/moduli
