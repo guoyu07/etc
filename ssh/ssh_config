@@ -17,8 +17,11 @@ Host *
     ServerAliveCountMax 5
     TcpKeepAlive no
 
-    PasswordAuthentication no
-    ChallengeResponseAuthentication no
+    PubkeyAuthentication yes
+    PasswordAuthentication yes
+    ChallengeResponseAuthentication yes
+
+    PreferredAuthentications publickey,keyboard-interactive,password
 
     # http://undeadly.org/cgi?action=article&sid=20160114142733
     UseRoaming no
