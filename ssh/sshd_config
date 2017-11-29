@@ -18,11 +18,6 @@ TCPKeepAlive no
 ClientAliveCountMax 5
 ClientAliveInterval 60
 
-AuthorizedPrincipalsFile none
-AuthorizedKeysCommand none
-AuthorizedKeysCommandUser nobody
-
-RSAAuthentication no
 PubkeyAuthentication yes
 PasswordAuthentication no
 PermitEmptyPasswords no
